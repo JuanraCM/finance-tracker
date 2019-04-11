@@ -7,7 +7,7 @@ ruby '2.5.1'
 gem 'rails', '~> 5.2.3'
 
 gem 'devise'
-
+gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'devise-bootstrap-views'
 gem 'stock_quote'
