@@ -1,0 +1,12 @@
+$(document).ready ->
+  form    = $('#friend-lookup-form')
+  target  = $('.loader')[0]
+  spinner = new SpinnerLoader(target)
+
+  form
+    .bind 'ajax:send', () ->
+      spinner.spin()
+
+    .bind 'ajax:success', (response, data, status) ->
+      $('#results').html(data)
+      spinner.stop()

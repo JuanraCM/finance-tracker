@@ -7,10 +7,34 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  scope :matches, lambda { |field_name, token| where("#{field_name} like ?", "%#{token}%") }
+
+  scope :find_by_first_name, lambda { |token| matches('first_name', token) }
+
+  scope :find_by_last_name, lambda { |token| matches('last_name', token) }
+
+  scope :find_by_email, lambda { |token| matches('email', token) }
+
+  def self.search(token)
+    token.strip!
+    token.downcase!
+
+    results = (
+        find_by_first_name(token) +
+        find_by_last_name(token)  +
+        find_by_email(token)
+      ).uniq
+
+    return nil unless results
+    results
+  end
+
+
   def full_name
     return "#{first_name} #{last_name}".strip if first_name || last_name
     "Anonymous"
   end
+
 
   def stock_already_added?(ticker)
     stock = Stock.find_by_ticker(ticker)
