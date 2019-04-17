@@ -51,4 +51,14 @@ class User < ApplicationRecord
   def can_add_stock?(ticker)
     under_stock_limit? && !stock_already_added?(ticker)
   end
+
+
+  def except_current_user(users)
+    users.reject { |user| user.id == self.id }
+  end
+
+
+  def not_friend_with?(friend_id)
+    friendships.where(:friend_id => friend_id).count == 0
+  end
 end

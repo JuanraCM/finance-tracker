@@ -1,4 +1,4 @@
-$(document).ready ->
+$(document).on 'turbolinks:load', ->
   form    = $('#stock-lookup-form')
   target  = $('.loader')[0]
   spinner = new SpinnerLoader(target)
